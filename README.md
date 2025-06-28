@@ -38,18 +38,22 @@ cd library-management-api
 ```
 
 ### 2️⃣ Install Dependencies
+
 ```
 npm install
 ```
 
 ### 3️⃣ Environment Variables
-  - Create a .env file in the root directory:
+
+- Create a .env file in the root directory:
+
 ```
 PORT=5000
 MONGO_URI=your_mongodb_connection_string
 ```
 
 ### 4️⃣ Start the Server
+
 ```
 npm run dev
 ```
@@ -60,6 +64,7 @@ npm run dev
 
 POST /api/books
 Request:
+
 ```
 {
   "title": "The Theory of Everything",
@@ -73,6 +78,7 @@ Request:
 ```
 
 Response:
+
 ```
 {
   "success": true,
@@ -81,10 +87,15 @@ Response:
 }
 ```
 
+### 📌 Create Book Request (Postman)
+
+![Create Book](./screenshots/createBook.png)
+
 📗 2. Get All Books
 GET /api/books?filter=FANTASY&sortBy=createdAt&sort=desc&limit=5
 
 Response:
+
 ```
 {
   "success": true,
@@ -92,10 +103,12 @@ Response:
   "data": [ ... ]
 }
 ```
+
 📕 3. Get Book By ID
 GET /api/books/:bookId
 
 Response:
+
 ```
 {
   "success": true,
@@ -103,16 +116,20 @@ Response:
   "data": { ... }
 }
 ```
+
 4. Update Book
-PUT /api/books/:bookId
+   PUT /api/books/:bookId
 
 Request:
+
 ```
 {
   "copies": 50
 }
 ```
+
 Response:
+
 ```
 {
   "success": true,
@@ -120,10 +137,12 @@ Response:
   "data": { ... }
 }
 ```
+
 ❌ 5. Delete Book
 DELETE /api/books/:bookId
 
 Response:
+
 ```
 {
   "success": true,
@@ -136,6 +155,7 @@ Response:
 POST /api/borrow
 
 Request:
+
 ```
   {
     "book": "64ab3f9e2a4b5c6d7e8f9012",
@@ -143,7 +163,9 @@ Request:
     "dueDate": "2025-07-18T00:00:00.000Z"
   }
 ```
+
 Response:
+
 ```
   {
     "success": true,
@@ -152,10 +174,15 @@ Response:
   }
 ```
 
+### 📌 Borrowed Books Summary
+
+![Borrow Summary](./screenshots/borrowBook.png)
+
 📊 7. Borrowed Books Summary
 GET /api/borrow
 
 Response:
+
 ```
   {
     "success": true,
@@ -172,6 +199,10 @@ Response:
   }
 ```
 
+### 📌 Borrowed Books Summary
+
+![Borrow Summary](./screenshots/borrowBook-2.png)
+![Borrow Summary](./screenshots/db-bookBorrowRequests.png)
 
 ⚠️ Generic Error Response Format
 
