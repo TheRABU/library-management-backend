@@ -104,6 +104,10 @@ Response:
 }
 ```
 
+#### All books from database
+
+![Borrow Summary](./screenshots/db-bookBorrowRequests.png)
+
 📕 3. Get Book By ID
 GET /api/books/:bookId
 
@@ -202,7 +206,6 @@ Response:
 ### 📌 Borrowed Books Summary
 
 ![Borrow Summary](./screenshots/borrowBook-2.png)
-![Borrow Summary](./screenshots/db-bookBorrowRequests.png)
 
 ⚠️ Generic Error Response Format
 
