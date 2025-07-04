@@ -1,9 +1,15 @@
 import { Schema, model } from "mongoose";
 const borrowSchema = new Schema({
-    book: {
-        type: Schema.Types.ObjectId,
-        ref: "Book",
-        required: [true, "Book is required"],
+    bookId: {
+        type: String,
+        // ref: "Book",
+        required: [true, "BookId is required"],
+    },
+    title: {
+        type: String,
+    },
+    isbn: {
+        type: Number,
     },
     quantity: {
         type: Number,

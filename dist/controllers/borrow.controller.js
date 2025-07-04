@@ -1,22 +1,23 @@
 import Book from "../models/Book.model.js";
 import Borrow from "../models/Borrow.model.js";
-import mongoose from "mongoose";
 export const borrowBook = async (req, res, next) => {
     try {
-        const { book, dueDate, quantity } = req.body;
-        if (!book || !quantity || !dueDate) {
+        const { bookId, title, dueDate, quantity } = req.body;
+        console.log(bookId, title, dueDate, quantity);
+        if (!bookId || !quantity || !dueDate) {
             return res.status(400).json({
                 success: false,
                 message: "Please provide book ID, quantity, and due date",
             });
         }
-        if (!mongoose.Types.ObjectId.isValid(book)) {
-            return res.status(400).json({
-                success: false,
-                message: "Invalid book ID format",
-            });
-        }
-        const foundBook = await Book.findById(book);
+        // if (!mongoose.Types.ObjectId.isValid(book)) {
+        //   return res.status(400).json({
+        //     success: false,
+        //     message: "Invalid book ID format",
+        //   });
+        // }
+        const foundBook = await Book.findOne({ title: title.trim() });
+        console.log(foundBook);
         if (!foundBook) {
             return res.status(404).json({
                 success: false,
@@ -35,9 +36,10 @@ export const borrowBook = async (req, res, next) => {
             foundBook.available = false;
         }
         await foundBook.save();
-        // create a new borrow request
+        // Create borrow record
         const borrow = await Borrow.create({
-            book,
+            bookId: foundBook._id,
+            title: foundBook.title,
             quantity,
             dueDate,
         });
@@ -56,7 +58,7 @@ export const getBorrowedBooksSummary = async (req, res, next) => {
         const summary = await Borrow.aggregate([
             {
                 $group: {
-                    _id: "$book",
+                    _id: "$bookId",
                     totalQuantity: { $sum: "$quantity" },
                 },
             },
@@ -90,5 +92,23 @@ export const getBorrowedBooksSummary = async (req, res, next) => {
     }
     catch (error) {
         next(error);
+    }
+};
+export const getAllBorrowRecords = async (req, res) => {
+    try {
+        const records = await Borrow.find();
+        if (!records) {
+            console.log("Could not find any record see at getAllBorrowRecords::");
+            return;
+        }
+        res.status(200).json({
+            success: true,
+            message: "Retrieved data successfully",
+            data: records,
+        });
+    }
+    catch (error) {
+        console.log(error.message);
+        throw error;
     }
 };

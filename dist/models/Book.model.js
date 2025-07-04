@@ -13,12 +13,12 @@ const bookSchema = new Schema({
     genre: {
         type: String,
         enum: [
-            "FICTION",
-            "NON_FICTION",
-            "SCIENCE",
-            "HISTORY",
-            "BIOGRAPHY",
-            "FANTASY",
+            "fiction",
+            "non_fiction",
+            "science",
+            "history",
+            "biography",
+            "fantasy",
         ],
         required: [true, "Genre is required"],
     },
@@ -41,6 +41,9 @@ const bookSchema = new Schema({
     available: {
         type: Boolean,
         default: true,
+    },
+    imgUrl: {
+        type: String,
     },
 }, { timestamps: true });
 const Book = model("Book", bookSchema);

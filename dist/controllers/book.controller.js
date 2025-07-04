@@ -13,6 +13,15 @@ export const createBook = async (req, res, next) => {
         next(error);
     }
 };
+export const addBooksInBulk = async (req, res) => {
+    try {
+        const result = await Book.insertMany(req.body);
+        res.status(201).json(result);
+    }
+    catch (error) {
+        res.status(400).json({ message: error.message });
+    }
+};
 export const getAllBooks = async (req, res, next) => {
     try {
         const { filter, sortBy = "createdAt", sort = "desc", limit = "10", } = req.query;

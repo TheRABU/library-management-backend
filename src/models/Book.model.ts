@@ -4,16 +4,17 @@ export interface BookInterface extends Document {
   title: string;
   author: string;
   genre:
-    | "FICTION"
-    | "NON_FICTION"
-    | "SCIENCE"
-    | "HISTORY"
-    | "BIOGRAPHY"
-    | "FANTASY";
+    | "fiction"
+    | "non_fiction"
+    | "science"
+    | "history"
+    | "biography"
+    | "fantasy";
   isbn: string;
   description?: string;
   copies: number;
   available: boolean;
+  imgUrl?: string;
   createdAt?: Date;
   updatedAt?: Date;
 }
@@ -33,12 +34,12 @@ const bookSchema = new Schema<BookInterface>(
     genre: {
       type: String,
       enum: [
-        "FICTION",
-        "NON_FICTION",
-        "SCIENCE",
-        "HISTORY",
-        "BIOGRAPHY",
-        "FANTASY",
+        "fiction",
+        "non_fiction",
+        "science",
+        "history",
+        "biography",
+        "fantasy",
       ],
       required: [true, "Genre is required"],
     },
@@ -61,6 +62,9 @@ const bookSchema = new Schema<BookInterface>(
     available: {
       type: Boolean,
       default: true,
+    },
+    imgUrl: {
+      type: String,
     },
   },
   { timestamps: true }
