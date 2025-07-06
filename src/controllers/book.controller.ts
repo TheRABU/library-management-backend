@@ -25,7 +25,9 @@ export const addBooksInBulk = async (req: Request, res: Response) => {
     const result = await Book.insertMany(req.body);
     res.status(201).json(result);
   } catch (error) {
-    res.status(400).json({ message: error.message });
+    const errorMessage =
+      error instanceof Error ? error.message : "An error occurred";
+    res.status(400).json({ message: errorMessage });
   }
 };
 

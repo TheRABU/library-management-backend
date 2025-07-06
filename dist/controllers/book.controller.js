@@ -19,7 +19,8 @@ export const addBooksInBulk = async (req, res) => {
         res.status(201).json(result);
     }
     catch (error) {
-        res.status(400).json({ message: error.message });
+        const errorMessage = error instanceof Error ? error.message : "An error occurred";
+        res.status(400).json({ message: errorMessage });
     }
 };
 export const getAllBooks = async (req, res, next) => {

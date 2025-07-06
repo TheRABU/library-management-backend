@@ -114,8 +114,10 @@ export const getAllBorrowRecords = async (req: Request, res: Response) => {
     const records = await Borrow.find();
 
     if (!records) {
-      console.log("Could not find any record see at getAllBorrowRecords::");
-      return;
+      return res.status(404).json({
+        success: false,
+        message: "Could not find any record see at getAllBorrowRecords::",
+      });
     }
     res.status(200).json({
       success: true,
@@ -123,7 +125,11 @@ export const getAllBorrowRecords = async (req: Request, res: Response) => {
       data: records,
     });
   } catch (error) {
-    console.log(error.message);
+    if (error instanceof Error) {
+      console.log(error.message);
+    } else {
+      console.log(error);
+    }
     throw error;
   }
 };
