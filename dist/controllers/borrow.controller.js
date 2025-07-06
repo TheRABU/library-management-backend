@@ -3,7 +3,6 @@ import Borrow from "../models/Borrow.model.js";
 export const borrowBook = async (req, res, next) => {
     try {
         const { bookId, title, dueDate, quantity } = req.body;
-        console.log(bookId, title, dueDate, quantity);
         if (!bookId || !quantity || !dueDate) {
             return res.status(400).json({
                 success: false,
@@ -17,7 +16,6 @@ export const borrowBook = async (req, res, next) => {
         //   });
         // }
         const foundBook = await Book.findOne({ title: title.trim() });
-        console.log(foundBook);
         if (!foundBook) {
             return res.status(404).json({
                 success: false,
@@ -39,6 +37,8 @@ export const borrowBook = async (req, res, next) => {
         // Create borrow record
         const borrow = await Borrow.create({
             bookId: foundBook._id,
+            isbn: foundBook.isbn,
+            bookImg: foundBook.imgUrl,
             title: foundBook.title,
             quantity,
             dueDate,

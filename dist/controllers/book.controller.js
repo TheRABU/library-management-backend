@@ -24,10 +24,10 @@ export const addBooksInBulk = async (req, res) => {
 };
 export const getAllBooks = async (req, res, next) => {
     try {
-        const { filter, sortBy = "createdAt", sort = "desc", limit = "10", } = req.query;
+        const { filter, sortBy = "createdAt", sort = "desc", limit = "20", } = req.query;
         const query = {};
         if (filter) {
-            query.genre = filter.toString().toUpperCase();
+            query.genre = filter.toString().toLowerCase();
         }
         // Sort direction
         const sortOrder = sort === "asc" ? 1 : -1;
@@ -68,6 +68,14 @@ export const getBookById = async (req, res, next) => {
 export const updateBook = async (req, res, next) => {
     try {
         const { bookId } = req.params;
+        const updatedData = req.body;
+        const { title, author, genre, description, quantity } = updatedData;
+        if (!title && !author && !genre && !description && !quantity) {
+            return res.status(400).json({
+                success: false,
+                message: "No title, author, genre, description, quantity found to be updated!",
+            });
+        }
         if (!mongoose.Types.ObjectId.isValid(bookId)) {
             return res.status(400).json({
                 success: false,
@@ -75,9 +83,15 @@ export const updateBook = async (req, res, next) => {
                 error: "Invalid ObjectId",
             });
         }
-        const updatedBook = await Book.findByIdAndUpdate(bookId, req.body, {
+        const book = await Book.findOne({ _id: bookId });
+        if (!book) {
+            return res.status(400).json({
+                success: false,
+                message: "Book not found in database",
+            });
+        }
+        const updatedBook = await Book.findByIdAndUpdate(bookId, updatedData, {
             new: true,
-            runValidators: true,
         });
         if (!updatedBook) {
             return res.status(404).json({

@@ -1,10 +1,4 @@
-import { Schema, model, Document, Types } from "mongoose";
-
-export interface BorrowInterface extends Document {
-  book: Types.ObjectId;
-  quantity: number;
-  dueDate: Date;
-}
+import { Schema, model } from "mongoose";
 
 const borrowSchema = new Schema(
   {
@@ -12,6 +6,9 @@ const borrowSchema = new Schema(
       type: String,
       // ref: "Book",
       required: [true, "BookId is required"],
+    },
+    bookImg: {
+      type: String,
     },
     title: {
       type: String,

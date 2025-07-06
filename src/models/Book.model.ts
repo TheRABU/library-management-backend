@@ -1,15 +1,9 @@
-import { Schema, model, Document } from "mongoose";
+import { Schema, model } from "mongoose";
 
-export interface BookInterface extends Document {
+export interface BookInterface {
   title: string;
   author: string;
-  genre:
-    | "fiction"
-    | "non_fiction"
-    | "science"
-    | "history"
-    | "biography"
-    | "fantasy";
+  genre: string;
   isbn: string;
   description?: string;
   copies: number;
@@ -34,12 +28,12 @@ const bookSchema = new Schema<BookInterface>(
     genre: {
       type: String,
       enum: [
-        "fiction",
-        "non_fiction",
-        "science",
-        "history",
-        "biography",
-        "fantasy",
+        "FICTION",
+        "NON_FICTION",
+        "SCIENCE",
+        "HISTORY",
+        "BIOGRAPHY",
+        "FANTASY",
       ],
       required: [true, "Genre is required"],
     },

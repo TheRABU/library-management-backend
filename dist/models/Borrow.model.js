@@ -5,6 +5,9 @@ const borrowSchema = new Schema({
         // ref: "Book",
         required: [true, "BookId is required"],
     },
+    bookImg: {
+        type: String,
+    },
     title: {
         type: String,
     },

@@ -39,11 +39,11 @@ export const getAllBooks = async (
       filter,
       sortBy = "createdAt",
       sort = "desc",
-      limit = "10",
+      limit = "20",
     } = req.query;
     const query: any = {};
     if (filter) {
-      query.genre = filter.toString().toUpperCase();
+      query.genre = filter.toString().toLowerCase();
     }
 
     // Sort direction
@@ -78,6 +78,7 @@ export const getBookById = async (
         error: "Invalid book ID",
       });
     }
+
     res.status(200).json({
       success: true,
       message: "Book's data found successfully",
@@ -96,6 +97,15 @@ export const updateBook = async (
   try {
     const { bookId } = req.params;
 
+    const updatedData = req.body;
+    const { title, author, genre, description, quantity } = updatedData;
+    if (!title && !author && !genre && !description && !quantity) {
+      return res.status(400).json({
+        success: false,
+        message:
+          "No title, author, genre, description, quantity found to be updated!",
+      });
+    }
     if (!mongoose.Types.ObjectId.isValid(bookId)) {
       return res.status(400).json({
         success: false,
@@ -104,9 +114,16 @@ export const updateBook = async (
       });
     }
 
-    const updatedBook = await Book.findByIdAndUpdate(bookId, req.body, {
+    const book = await Book.findOne({ _id: bookId });
+    if (!book) {
+      return res.status(400).json({
+        success: false,
+        message: "Book not found in database",
+      });
+    }
+
+    const updatedBook = await Book.findByIdAndUpdate(bookId, updatedData, {
       new: true,
-      runValidators: true,
     });
 
     if (!updatedBook) {
